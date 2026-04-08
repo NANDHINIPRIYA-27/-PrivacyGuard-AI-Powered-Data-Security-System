@@ -5,20 +5,47 @@
 </head>
 <body>
 
-    <h2>PrivacyGuard - Permission Checker</h2>
+<h2>PrivacyGuard - Permission Checker</h2>
 
-    <form>
-        <label>App Name:</label><br>
-        <input type="text" name="app"><br><br>
+<label>App Name:</label><br>
+<input type="text" id="app"><br><br>
 
-        <label>Select Permissions:</label><br>
-        <input type="checkbox" name="perm"> Camera<br>
-        <input type="checkbox" name="perm"> Microphone<br>
-        <input type="checkbox" name="perm"> Location<br>
-        <input type="checkbox" name="perm"> Storage<br><br>
+<label>Select Permissions:</label><br>
+<input type="checkbox" value="camera"> Camera<br>
+<input type="checkbox" value="microphone"> Microphone<br>
+<input type="checkbox" value="location"> Location<br>
+<input type="checkbox" value="storage"> Storage<br><br>
 
-        <input type="submit" value="Check Risk">
-    </form>
+<button onclick="checkRisk()">Check Risk</button>
+
+<p id="result"></p>
+
+<script>
+function checkRisk() {
+    let risk = 0;
+    let checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+
+    checkboxes.forEach((cb) => {
+        if (cb.value === "camera" || cb.value === "microphone") {
+            risk += 4;
+        } else if (cb.value === "location") {
+            risk += 2;
+        } else {
+            risk += 1;
+        }
+    });
+
+    let message = "";
+
+    if (risk >= 7) {
+        message = "Warning: High Risk Application!";
+    } else {
+        message = "Application appears safe.";
+    }
+
+    document.getElementById("result").innerText = message + " (Score: " + risk + ")";
+}
+</script>
 
 </body>
 </html>
